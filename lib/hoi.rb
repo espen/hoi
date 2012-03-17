@@ -8,27 +8,23 @@ class Hoi
   include HTTParty
   format :plain
   default_timeout 30
+  @throws_exceptions = false
 
   base_uri "https://secure.hoiio.com/open/"
 
   attr_accessor :app_id, :access_token, :timeout, :throws_exceptions
 
   def initialize(app_id = nil, access_token = nil, extra_params = {})
-    @app_id = app_id || ENV['HOIIO_APP_ID'] || self.class.app_id
-    @access_token = access_token || ENV['HOIIO_ACCESS_TOKEN'] || self.class.access_token
+    @app_id ||= app_id || ENV['HOIIO_APP_ID'] || self.class.app_id
+    @access_token ||= access_token || ENV['HOIIO_ACCESS_TOKEN'] || self.class.access_token
     @default_params = {:app_id => @app_id, :access_token => @access_token}.merge(extra_params)
-    @throws_exceptions = false
   end
 
-  def app_id=(value)
-    @app_id = value
-    @default_params = @default_params.merge({:app_id => @app_id})
-  end
+  protected
 
-  def access_token=(value)
-    @access_token = value
-    @default_params = @default_params.merge({:access_token => @access_token})
-  end
+    class << self
+      attr_accessor :app_id, :access_token
+    end
 
   private
 
@@ -37,8 +33,7 @@ class Hoi
     if @throws_exceptions && response_body.is_a?(Hash) && response_body["status"] != "success_ok"
       raise "Error from Hoiio API: #{response_body["status"]}"
     end
-
-    response
+    response_body
   end
 
 end

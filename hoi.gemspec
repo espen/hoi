@@ -15,5 +15,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.add_runtime_dependency(%q<json>, ["> 1.4.0"])
   gem.add_runtime_dependency(%q<httparty>, ["> 0.6.0"])
+  gem.add_development_dependency(%q<shoulda>, [">= 0"])
+  gem.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
+  gem.add_development_dependency(%q<mocha>, ["> 0.9.11"])
   gem.version       = Hoi::VERSION
 end
