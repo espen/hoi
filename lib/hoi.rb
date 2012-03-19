@@ -3,7 +3,7 @@ require 'json'
 require 'cgi'
 
 class Hoi
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 
   include HTTParty
   format :plain
