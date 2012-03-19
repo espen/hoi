@@ -3,14 +3,16 @@ require 'cgi'
 
 class TestHoi < Test::Unit::TestCase
 
-  context "attributes" do
+    context "attributes" do
 
     setup do
       @app_id = "singapore"
       @access_token = "spg"
     end
 
-    should "have no API by default" do
+    should "aaaa - have no API by default" do
+      Hoi.app_id = nil
+      Hoi.access_token = nil
       @hoi = Hoi.new
       assert_equal(nil, @hoi.app_id)
       assert_equal(nil, @hoi.access_token)
@@ -70,7 +72,7 @@ class TestHoi < Test::Unit::TestCase
 
   context "SMS API" do
     setup do
-      @app_id = "mylittleid"
+      @app_id = "smsid"
       @access_token = "yodawg"
       @hoi = Hoi::SMS.new(@key)
       @url = "https://secure.hoiio.com/open/sms/send/"
@@ -79,9 +81,17 @@ class TestHoi < Test::Unit::TestCase
       @body = {:app_id => @app_id, :access_token => @access_token}
     end
 
+    should "set an API id via main setter" do
+      Hoi.app_id = @app_id
+      Hoi.access_token = @access_token
+      @hoi = Hoi::SMS.new()
+      assert_equal(@app_id, @hoi.app_id)
+      assert_equal(@access_token, @hoi.access_token)
+    end
+
 
     should "send sms" do
-      Hoi.stubs(:post).returns(Struct.new(:body).new({'status' => 'success_ok'}.to_json))
+      Hoi::SMS.stubs(:post).returns(Struct.new(:body).new({'status' => 'success_ok'}.to_json))
       assert @hoi.send(:msg => @msg, :dest => @dest)
     end
 
