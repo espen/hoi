@@ -95,6 +95,12 @@ class TestHoi < Test::Unit::TestCase
       assert @hoi.send(:msg => @msg, :dest => @dest)
     end
 
+    should "send not send sms in test mode" do
+      @hoi.test_mode = true
+      assert @hoi.send(:msg => @msg, :dest => @dest)
+      @hoi.test_mode = false
+    end
+
   end
 
 end
