@@ -78,10 +78,6 @@ class Hoi
 
     end
 
-  def execute_post(url, params)
-    self.class.post(url, params) unless @@test_mode
-  end
-
   private
 
   def default_params(params)
@@ -89,7 +85,6 @@ class Hoi
   end
 
   def handle_response(response)
-    return {:status => 'success_ok'}.to_json if @@test_mode
     response_body = JSON.parse('['+response.body+']').first
     if @throws_exceptions && response_body.is_a?(Hash) && response_body["status"] != "success_ok"
       raise "Error from Hoiio API: #{response_body["status"]}"
@@ -97,15 +92,20 @@ class Hoi
     response_body
   end
 
+  def call(url, params)
+    return {:status => 'success_ok'}.to_json if @@test_mode
+    handle_response( self.class.post('/sms/send', {:body => default_params(params) }) )
+  end
+
 end
 
 
 class Hoi::SMS < Hoi
   def send(params)
-    handle_response( self.execute_post('/sms/send', {:body => default_params(params) }) )
+    call('/sms/send', params)
   end
 
   def get_rate(params)
-    handle_response( self.execute_post('/sms/get_rate', {:body => default_params(params) }) )
+    call('/sms/get_rate', params)
   end
 end
