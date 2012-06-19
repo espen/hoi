@@ -93,7 +93,7 @@ class Hoi
   end
 
   def call(url, params)
-    return {:status => 'success_ok'}.to_json if @@test_mode
+    return {:status => 'success_ok'} if @@test_mode
     handle_response( self.class.post('/sms/send', {:body => default_params(params) }) )
   end
 
