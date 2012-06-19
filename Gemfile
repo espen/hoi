@@ -7,4 +7,5 @@ group :development, :test do
   gem "shoulda", ">= 0"
   gem "bundler"
   gem "mocha", "> 0.9.11"
+  gem "rake"
 end
