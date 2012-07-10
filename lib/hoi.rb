@@ -3,7 +3,7 @@ require 'json'
 require 'cgi'
 
 class Hoi
-  VERSION = '0.0.5'
+  VERSION = '0.0.6'
 
   include HTTParty
   format :plain
@@ -47,6 +47,10 @@ class Hoi
     @@test_mode = value
   end
 
+  def version
+    VERSION
+  end
+
   protected
 
     class << self
@@ -76,6 +80,10 @@ class Hoi
         @@test_mode
       end
 
+      def version
+        VERSION
+      end
+
     end
 
   private
@@ -98,7 +106,6 @@ class Hoi
   end
 
 end
-
 
 class Hoi::SMS < Hoi
   def send(params)

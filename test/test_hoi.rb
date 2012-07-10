@@ -89,15 +89,29 @@ class TestHoi < Test::Unit::TestCase
       assert_equal(@access_token, @hoi.access_token)
     end
 
-
     should "send sms" do
       Hoi::SMS.stubs(:post).returns(Struct.new(:body).new({'status' => 'success_ok'}.to_json))
       assert @hoi.send(:msg => @msg, :dest => @dest)
     end
 
+    should "send return hash" do
+      Hoi::SMS.stubs(:post).returns(Struct.new(:body).new({'status' => 'success_ok'}.to_json))
+      sms = @hoi.send(:msg => @msg, :dest => @dest)
+      assert_equal 'Hash', sms.class.to_s
+      assert_equal 'success_ok', sms['status']
+    end
+
     should "send not send sms in test mode" do
       @hoi.test_mode = true
       assert @hoi.send(:msg => @msg, :dest => @dest)
+      @hoi.test_mode = false
+    end
+
+    should "send return hash in test mode" do
+      @hoi.test_mode = true
+      test_sms = @hoi.send(:msg => @msg, :dest => @dest)
+      assert_equal 'Hash', test_sms.class.to_s
+      assert_equal 'success_ok', test_sms['status']
       @hoi.test_mode = false
     end
 
