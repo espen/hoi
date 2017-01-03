@@ -13,10 +13,11 @@ Gem::Specification.new do |gem|
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.name          = "hoi"
   gem.require_paths = ["lib"]
-  gem.add_runtime_dependency(%q<json>, ["> 1.4.0"])
-  gem.add_runtime_dependency(%q<httparty>, ["> 0.6.0"])
-  gem.add_development_dependency(%q<shoulda>, [">= 0"])
-  gem.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
-  gem.add_development_dependency(%q<mocha>, ["> 0.9.11"])
+  gem.add_runtime_dependency(%q<json>)
+  gem.add_runtime_dependency(%q<httparty>)
+  gem.add_development_dependency(%q<shoulda>)
+  gem.add_development_dependency(%q<bundler>)
+  gem.add_development_dependency(%q<mocha>)
+  gem.add_development_dependency(%q<test-unit>)
   gem.version       = Hoi::VERSION
 end
